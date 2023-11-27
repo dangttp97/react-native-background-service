@@ -20,7 +20,7 @@ yarn add @dangttp/react-native-background-service
 import BackgroundService from '@dangttp/react-native-background-service';
 ```
 
-Call `js addBackgroundService(callback: () => void, delay: number);` when you want to loop after amount of miliseconds (even in background mode) like shown below
+Call `addBackgroundService(callback: () => void, delay: number)` when you want to loop after amount of miliseconds (even in background mode) like shown below
 
 ```js
 /** In my example I use it in my App.tsx initial useEffect */
@@ -37,7 +37,7 @@ useEffect(() => {
 }, []);
 ```
 
-Call `js stopBackgroundService();` when you discard your app like shown below
+Call `stopBackgroundService()` when you discard your app like shown below
 
 ```js
 useEffect(() => {
