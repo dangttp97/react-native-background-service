@@ -5,22 +5,49 @@ A simple React Native library inspired by react-native-background-timer for mana
 ## Installation
 
 ```sh
-npm install react-native-background-service
+npm install @dangttp/react-native-background-service
+```
+
+or
+
+```sh
+yarn add @dangttp/react-native-background-service
 ```
 
 ## Usage
 
 ```js
-import { multiply } from 'react-native-background-service';
-
-// ...
-
-const result = await multiply(3, 7);
+import BackgroundService from '@dangttp/react-native-background-service';
 ```
 
-## Contributing
+Call `js addBackgroundService(callback: () => void, delay: number);` when you want to loop after amount of miliseconds (even in background mode) like shown below
 
-See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
+```js
+/** In my example I use it in my App.tsx initial useEffect */
+
+useEffect(() => {
+  BackgroundService.addBackgroundService(async () => {
+    const location = await fetchLocation();
+    emitLocationToSocket(location);
+  }, 10000);
+
+  return () => {
+    BackgroundService.stopBackgroundService();
+  };
+}, []);
+```
+
+Call `js stopBackgroundService();` when you discard your app like shown below
+
+```js
+useEffect(() => {
+  // Your code here
+
+  return () => {
+    BackgroundService.stopBackgroundService();
+  };
+}, []);
+```
 
 ## License
 

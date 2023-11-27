@@ -1,19 +1,43 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-background-service';
+import { StyleSheet, View } from 'react-native';
+
+import BackgroundService from '@dangttp/react-native-background-service';
+import RNLocation from 'react-native-location';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  // const [result, setResult] = React.useState<number | undefined>();
 
-  React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+  useEffect(() => {
+    RNLocation.configure({
+      distanceFilter: 100, // Meters
+      desiredAccuracy: {
+        ios: 'best',
+        android: 'balancedPowerAccuracy',
+      },
+    });
+
+    RNLocation.requestPermission({
+      ios: 'always',
+      android: {
+        detail: 'coarse',
+      },
+    });
+
+    BackgroundService.addBackgroundService(() => {
+      RNLocation.subscribeToLocationUpdates((locations) => {
+        console.log('Location', JSON.stringify(locations[0]));
+      });
+    }, 10000);
+
+    return () => {
+      BackgroundService.stopBackgroundService();
+    };
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text>Result: {result}</Text>
-    </View>
+    <View style={styles.container}>{/* <Text>Result: {result}</Text> */}</View>
   );
 }
 
