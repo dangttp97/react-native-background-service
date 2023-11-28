@@ -39,7 +39,10 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/dangttp97/react-native-background-service",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dangttp97/react-native-background-service.git"
+  },
   "author": "Trần Thành Phương Đăng <phuongdang012@gmail.com> (https://github.com/dangttp97)",
   "license": "MIT",
   "bugs": {
