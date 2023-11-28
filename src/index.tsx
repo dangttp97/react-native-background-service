@@ -47,8 +47,10 @@ class BackgroundService {
     this.timeoutListener = new NativeEventEmitter(
       RNBackgroundService
     ).addListener('backgroundService.timeout', (id: number) => {
-      if (this.callbacks[id] !== undefined) {
-        const { callback } = this.callbacks[id];
+      const callbackObj = this.callbacks[id];
+
+      if (callbackObj) {
+        const { callback } = callbackObj;
         if (!this.callbacks[id]?.interval) {
           delete this.callbacks[id];
         } else {
