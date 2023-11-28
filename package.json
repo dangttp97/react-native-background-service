@@ -50,7 +50,8 @@
   },
   "homepage": "https://github.com/dangttp97/react-native-background-service#readme",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",
