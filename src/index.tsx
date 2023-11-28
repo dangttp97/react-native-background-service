@@ -4,6 +4,7 @@ import {
   NativeAppEventEmitter,
   NativeModules,
   Platform,
+  EmitterSubscription,
 } from 'react-native';
 
 const LINKING_ERROR =
@@ -33,27 +34,33 @@ type CallbacksType = {
 
 type Callback = () => void;
 class BackgroundService {
+  timeoutListener: EmitterSubscription | undefined;
   uniqueId = 0;
   callbacks: CallbacksType = {};
+  backgroundListener: EmitterSubscription | undefined;
+  backgroundTimer: string | number | NodeJS.Timeout | undefined;
 
   constructor() {
     this.uniqueId = 0;
     this.callbacks = {};
 
-    new NativeEventEmitter(RNBackgroundService).addListener(
-      'backgroundService.timeout',
-      (id: number) => {
-        if (this.callbacks[id] !== undefined) {
-          const { callback } = this.callbacks[id];
-          if (!this.callbacks[id]?.interval) {
-            delete this.callbacks[id];
-          } else {
-            RNBackgroundService.setTimeout(id, this.callbacks[id]?.timeout);
-          }
-          callback();
+    this.timeoutListener = new NativeEventEmitter(
+      RNBackgroundService
+    ).addListener('backgroundService.timeout', (id: number) => {
+      if (this.callbacks[id] !== undefined) {
+        const { callback } = this.callbacks[id];
+        if (!this.callbacks[id]?.interval) {
+          delete this.callbacks[id];
+        } else {
+          RNBackgroundService.setTimeout(id, this.callbacks[id]?.timeout);
         }
+        callback();
       }
-    );
+    });
+  }
+
+  destructor() {
+    this.timeoutListener?.remove();
   }
 
   start = (delay: number): Promise<void> => {
@@ -94,9 +101,9 @@ class BackgroundService {
       default: () => DeviceEventEmitter,
     })();
 
-    this.start(timeout);
+    this.start(0);
     this.backgroundListener = emitter.addListener('backgroundService', () => {
-      this.backgroundListener.remove();
+      this.backgroundListener?.remove();
       this.backgroundClockMethod(callback, timeout);
     });
   };
@@ -104,6 +111,7 @@ class BackgroundService {
   stopBackgroundService = () => {
     this.stop();
     clearTimeout(this.backgroundTimer);
+    this.backgroundListener?.remove();
   };
 
   backgroundClockMethod = (callback: Callback, delay: number) => {

@@ -42,7 +42,7 @@ public class BackgroundServiceModule extends ReactContextBaseJavaModule {
     super(reactContext);
     this.reactContext = reactContext;
     this.powerManager = (PowerManager) getReactApplicationContext().getSystemService(reactContext.POWER_SERVICE);
-    this.wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "phuongdang_bg_wakelock");
+    this.wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "background_wakelock");
     reactContext.addLifecycleEventListener(listener);
   }
 

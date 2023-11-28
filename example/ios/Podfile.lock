@@ -378,6 +378,8 @@ PODS:
   - react-native-background-service (0.1.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
+  - react-native-geolocation-service (5.3.1):
+    - React
   - react-native-location (2.5.0):
     - React
   - React-NativeModulesApple (0.72.7):
@@ -542,6 +544,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-background-service (from `../..`)
+  - react-native-geolocation-service (from `../node_modules/react-native-geolocation-service`)
   - react-native-location (from `../node_modules/react-native-location`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -625,6 +628,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-background-service:
     :path: "../.."
+  react-native-geolocation-service:
+    :path: "../node_modules/react-native-geolocation-service"
   react-native-location:
     :path: "../node_modules/react-native-location"
   React-NativeModulesApple:
@@ -699,6 +704,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 8baadae51f01d867c3921213a25ab78ab4fbcd91
   React-logger: 8edc785c47c8686c7962199a307015e2ce9a0e4f
   react-native-background-service: 76be30dbe9ab2e1558be5658da4ab399d47670ed
+  react-native-geolocation-service: 608e1da71a1ac31b4de64d9ef2815f697978c55b
   react-native-location: 5a40ec1cc6abf2f6d94df979f98ec76c3a415681
   React-NativeModulesApple: b6868ee904013a7923128892ee4a032498a1024a
   React-perflogger: 31ea61077185eb1428baf60c0db6e2886f141a5a
