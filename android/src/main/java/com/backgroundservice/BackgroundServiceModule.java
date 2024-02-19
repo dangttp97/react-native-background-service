@@ -19,10 +19,11 @@ import java.lang.Runnable;
 @ReactModule(name = BackgroundServiceModule.NAME)
 public class BackgroundServiceModule extends ReactContextBaseJavaModule {
   private Handler handler;
-  private ReactContext reactContext;
+  private final ReactContext reactContext;
   private Runnable runnable;
   private PowerManager powerManager;
   private PowerManager.WakeLock wakeLock;
+  private int listenerCount = 0;
   private final LifecycleEventListener listener = new LifecycleEventListener(){
     @Override
     public void onHostResume(){}
@@ -45,6 +46,23 @@ public class BackgroundServiceModule extends ReactContextBaseJavaModule {
     this.wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "background_wakelock");
     reactContext.addLifecycleEventListener(listener);
   }
+
+  public void addListener(String eventName) {
+        if (listenerCount == 0) {
+        // Set up any upstream listeners or background tasks as necessary
+        }
+
+        listenerCount += 1;
+    }
+
+    @ReactMethod
+    public void removeListeners(Integer count) {
+        listenerCount -= count;
+        if (listenerCount == 0) {
+        // Remove upstream listeners, stop unnecessary background tasks
+        }
+    }
+
 
   @Override
   @NonNull
@@ -79,13 +97,10 @@ public class BackgroundServiceModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void setTimeout(final int id, final double timeout){
     Handler handler = new Handler();
-    handler.postDelayed(new Runnable() {
-      @Override
-      public void run() {
+    handler.postDelayed(() -> {
         if(getReactApplicationContext().hasActiveReactInstance()){
           getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("backgroundService.timeout", id);
         }
-      }
     }, (long) timeout);
   }
 }
