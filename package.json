@@ -1,6 +1,6 @@
 {
   "name": "@dangttp/react-native-background-service",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A simple React Native library inspired by react-native-background-timer for managing background service and task",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
